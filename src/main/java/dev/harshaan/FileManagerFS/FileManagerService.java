@@ -3,6 +3,7 @@ package dev.harshaan.FileManagerFS;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 
 @Service
@@ -38,13 +39,23 @@ public class FileManagerService {
         return false;
     }
 
-    public void createFile(String fileName, String fileContent) {
-        new EditableFile(fileName, fileContent);
+    private void checkDirectorySet() throws Exception {
+        if (directoryPath == null) {
+            throw new Exception("Directory path not set");
+        }
+    }
+
+    public void createFile(String fileName, String fileContent) throws Exception {
+        checkDirectorySet();
+        File file = new File(directoryPath, fileName);
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(fileContent);
+        }
     }
 
     public void deleteFile(String fileName) throws Exception {
-        EditableFile editableFile = new EditableFile(fileName);
-        File file = new File(editableFile.getFilePath());
+        checkDirectorySet();
+        File file = new File(directoryPath, fileName);
         if (!file.exists() || !file.isFile()) {
             throw new Exception("File not found: " + fileName);
         }
@@ -54,10 +65,7 @@ public class FileManagerService {
     }
 
     public void deleteDuplicates() throws Exception {
-        if (directoryPath == null) {
-            throw new Exception("Directory path not set");
-        }
-
+        checkDirectorySet();
         File directory = new File(directoryPath);
         if (!directory.exists() || !directory.isDirectory()) {
             throw new Exception("Invalid directory path");
@@ -80,10 +88,7 @@ public class FileManagerService {
     }
 
     public List<String> keywordSearch(String keyword) throws Exception {
-        if (directoryPath == null) {
-            throw new Exception("Directory path not set");
-        }
-
+        checkDirectorySet();
         File directory = new File(directoryPath);
         if (!directory.exists() || !directory.isDirectory()) {
             throw new Exception("Invalid directory path");
@@ -101,8 +106,9 @@ public class FileManagerService {
         return searchResults;
     }
 
-    public List<String> countWords(String fileName, int numThreads) {
-        List<Map.Entry<String, Integer>> wordCounts = wordCounterService.countWords(fileName, numThreads);
+    public List<String> countWords(String fileName, int numThreads) throws Exception {
+        checkDirectorySet();
+        List<Map.Entry<String, Integer>> wordCounts = wordCounterService.countWords(new File(directoryPath, fileName).getPath(), numThreads);
         List<String> result = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : wordCounts) {
             result.add(entry.getKey() + ": " + entry.getValue());
