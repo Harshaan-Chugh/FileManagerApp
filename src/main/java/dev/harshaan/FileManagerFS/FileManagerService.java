@@ -6,29 +6,49 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
 
+/**
+ * Service for managing files in a specified directory.
+ */
 @Service
 public class FileManagerService {
     private static final List<String> TEXT_FILE_EXTENSIONS = Arrays.asList("txt", "md");
     private final WordCounterService wordCounterService = new WordCounterService();
     private String directoryPath;
 
-    public List<String> loadFilesFromDirectory(String directoryPath) {
+    /**
+     * Loads text files from the specified directory.
+     *
+     * @param directoryPath the path of the directory to load files from
+     * @return a list of file details, including file name, word count, and character count
+     */
+    public List<Map<String, Object>> loadFilesFromDirectory(String directoryPath) {
         this.directoryPath = directoryPath;
         File directory = new File(directoryPath);
-        List<String> fileNames = new ArrayList<>();
+        List<Map<String, Object>> fileDetailsList = new ArrayList<>();
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
             if (files != null) {
                 for (File file : files) {
                     if (isTextFile(file)) {
-                        fileNames.add(file.getName());
+                        Map<String, Object> fileDetails = new HashMap<>();
+                        EditableFile editableFile = new EditableFile(file.getName());
+                        fileDetails.put("fileName", file.getName());
+                        fileDetails.put("wordCount", editableFile.getWordCount());
+                        fileDetails.put("charCount", editableFile.getCharCount());
+                        fileDetailsList.add(fileDetails);
                     }
                 }
             }
         }
-        return fileNames;
+        return fileDetailsList;
     }
 
+    /**
+     * Checks if a file is a text file based on its extension.
+     *
+     * @param file the file to check
+     * @return true if the file is a text file, false otherwise
+     */
     private boolean isTextFile(File file) {
         String fileName = file.getName().toLowerCase();
         int dotIndex = fileName.lastIndexOf('.');
@@ -39,12 +59,24 @@ public class FileManagerService {
         return false;
     }
 
+    /**
+     * Checks if the directory path is set.
+     *
+     * @throws Exception if the directory path is not set
+     */
     private void checkDirectorySet() throws Exception {
         if (directoryPath == null) {
             throw new Exception("Directory path not set");
         }
     }
 
+    /**
+     * Creates a new file with the specified content in the set directory.
+     *
+     * @param fileName    the name of the file to create
+     * @param fileContent the content to write to the file
+     * @throws Exception if the directory path is not set or an error occurs during file creation
+     */
     public void createFile(String fileName, String fileContent) throws Exception {
         checkDirectorySet();
         File file = new File(directoryPath, fileName);
@@ -53,6 +85,25 @@ public class FileManagerService {
         }
     }
 
+    /**
+     * Writes content to an existing file in the set directory.
+     *
+     * @param fileName    the name of the file to write to
+     * @param fileContent the content to write to the file
+     * @throws Exception if the directory path is not set or an error occurs during file writing
+     */
+    public void writeFile(String fileName, String fileContent) throws Exception {
+        checkDirectorySet();
+        EditableFile editableFile = new EditableFile(directoryPath + File.separator + fileName);
+        editableFile.write(fileContent);
+    }
+
+    /**
+     * Deletes a file in the set directory.
+     *
+     * @param fileName the name of the file to delete
+     * @throws Exception if the directory path is not set or an error occurs during file deletion
+     */
     public void deleteFile(String fileName) throws Exception {
         checkDirectorySet();
         File file = new File(directoryPath, fileName);
@@ -64,6 +115,11 @@ public class FileManagerService {
         }
     }
 
+    /**
+     * Deletes duplicate files in the set directory based on file content.
+     *
+     * @throws Exception if the directory path is not set or an error occurs during file deletion
+     */
     public void deleteDuplicates() throws Exception {
         checkDirectorySet();
         File directory = new File(directoryPath);
@@ -80,13 +136,21 @@ public class FileManagerService {
                     if (!file.delete()) {
                         throw new Exception("Failed to delete duplicate file: " + file.getName());
                     }
-                } else {
+                }
+                else {
                     uniqueFiles.put(fileContent, editableFile);
                 }
             }
         }
     }
 
+    /**
+     * Searches for files containing a specified keyword in the set directory.
+     *
+     * @param keyword the keyword to search for
+     * @return a list of file names containing the keyword
+     * @throws Exception if the directory path is not set or an error occurs during the search
+     */
     public List<String> keywordSearch(String keyword) throws Exception {
         checkDirectorySet();
         File directory = new File(directoryPath);
@@ -106,6 +170,14 @@ public class FileManagerService {
         return searchResults;
     }
 
+    /**
+     * Counts words in a specified file using a specified number of threads.
+     *
+     * @param fileName   the name of the file to count words in
+     * @param numThreads the number of threads to use for counting words
+     * @return a list of word counts in the format "word: count"
+     * @throws Exception if the directory path is not set or an error occurs during word counting
+     */
     public List<String> countWords(String fileName, int numThreads) throws Exception {
         checkDirectorySet();
         List<Map.Entry<String, Integer>> wordCounts = wordCounterService.countWords(new File(directoryPath, fileName).getPath(), numThreads);

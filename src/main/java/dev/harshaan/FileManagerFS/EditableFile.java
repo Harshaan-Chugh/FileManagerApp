@@ -1,88 +1,65 @@
 package dev.harshaan.FileManagerFS;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
+import lombok.Getter;
+
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
-import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
- * Represents a file with functionality for reading, writing, and managing content.
- * Author: Harshaan Chugh
+ * Represents an editable file with functionalities to read, write, and count words and characters.
  */
-@SuppressWarnings("ALL")
 public class EditableFile {
-   private final String path;
+   private final String filePath;
+   @Getter
+   private final String fileName;
+   @Getter
    private int wordCount;
+   @Getter
    private int charCount;
-   private String fileName;
 
    /**
-    * Constructs an EditableFile with the specified fileName in the current directory
+    * Constructs an EditableFile with the specified file path.
     *
-    * @param fileName The name of the file to be created or opened
+    * @param filePath the path of the file
     */
-   public EditableFile(String fileName) {
-      this.fileName = fileName;
-      String currentDirectory = System.getProperty("user.dir");
-      this.path = currentDirectory + File.separator + fileName;
-
-      try {
-         File file = new File(path);
-         if (!file.exists()) {
-            file.createNewFile();
-         }
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-
+   public EditableFile(String filePath) {
+      this.filePath = filePath;
+      this.fileName = new File(filePath).getName();
+      createFileIfNotExists();
       updateBothCounts();
    }
 
    /**
-    * Constructs an EditableFile with the specified fileName and initial content in the current directory
-    *
-    * @param fileName The name of the file to be created or opened
-    * @param contents The initial content of the file
+    * Creates the file if it does not exist.
     */
-   public EditableFile(String fileName, String contents) {
-      this.fileName = fileName;
-      String currentDirectory = System.getProperty("user.dir");
-      this.path = currentDirectory + File.separator + fileName;
-
+   @SuppressWarnings("ResultOfMethodCallIgnored")
+   private void createFileIfNotExists() {
+      File file = new File(filePath);
       try {
-         File file = new File(path);
          if (!file.exists()) {
             file.createNewFile();
          }
-         write(contents);
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
          e.printStackTrace();
       }
-
-      updateBothCounts();
    }
 
    /**
-    * Accessor method that returns the file path.
-    *
-    * @return path
-    */
-   public String getFilePath() {
-      return path;
-   }
-
-   /**
-    * Appends the specified content to the end of the file. Updates wordCount and
-    * charCount accordingly.
+    * Appends the specified content to the end of the file.
+    * Updates wordCount and charCount accordingly.
     *
     * @param contents The content to be written to the file.
     */
    public void write(String contents) {
-      try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, false))) { // Change append mode to false
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
          writer.write(contents);
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
          e.printStackTrace();
       }
 
@@ -90,67 +67,43 @@ public class EditableFile {
    }
 
    /**
-    * Reads the content of the file.
+    * Gets the content of the file.
     *
-    * @return The content of the file as a string
+    * @return the content of the file
+    * @throws IOException if an I/O error occurs
     */
-   public String getContent() {
-      StringBuilder content = new StringBuilder();
-      try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-         String line;
-         while ((line = reader.readLine()) != null) {
-            content.append(line).append("\n");
+   public String getContent() throws IOException {
+      return Files.readString(Paths.get(filePath));
+   }
+
+   /**
+    * Checks if the file contains the specified keyword.
+    *
+    * @param keyword the keyword to search for
+    * @return true if the file contains the keyword, false otherwise
+    * @throws IOException if an I/O error occurs
+    */
+   public boolean hasKeyword(String keyword) throws IOException {
+      return getContent().contains(keyword);
+   }
+
+   /**
+    * Updates the word count and character count of the file.
+    */
+   private void updateBothCounts() {
+      try {
+         String content = getContent();
+         charCount = content.length(); // No need to subtract 1
+         if (content.isEmpty()) {
+            wordCount = 0;
+         } else {
+            wordCount = content.split("\\s+").length;
          }
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
+         wordCount = 0;
+         charCount = 0;
          e.printStackTrace();
       }
-      return content.toString();
-   }
-
-   /**
-    * Method that returns the word count of an EditableFile.
-    *
-    * @return wordCount
-    */
-   public int getWordCount() {
-      return wordCount;
-   }
-
-   /**
-    * Method that returns the character count of an EditableFile
-    *
-    * @return charCount
-    */
-   public int getCharCount() {
-      return charCount;
-   }
-
-   /**
-    * Updates both the character and word counts.
-    */
-   public void updateBothCounts() {
-      String input = getContent();
-      charCount = input.length();
-      if (input.isEmpty()) {
-         wordCount = 0;
-      } else {
-         String[] words = input.split("\\s+");
-         wordCount = words.length;
-      }
-   }
-
-   /**
-    * Searches for a keyword in the file content.
-    *
-    * @param keyword The keyword to search for in the file content.
-    * @return true if the keyword is found, else false.
-    */
-   public boolean hasKeyword(String keyword) {
-      String content = getContent();
-      return content.contains(keyword);
-   }
-
-   public String getFileName() {
-      return fileName;
    }
 }
