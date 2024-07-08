@@ -34,3 +34,6 @@ build/
 
 ### ENV Files ###
 src/main/resources/.env
+
+### Tester .txt Files ###
+*.txt
