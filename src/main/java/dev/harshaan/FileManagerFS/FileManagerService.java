@@ -170,7 +170,7 @@ public class FileManagerService {
         List<String> searchResults = new ArrayList<>();
         for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.isFile() && isTextFile(file)) {
-                EditableFile editableFile = new EditableFile(file.getName());
+                EditableFile editableFile = new EditableFile(file.getAbsolutePath());
                 if (editableFile.hasKeyword(keyword)) {
                     searchResults.add(editableFile.getFileName());
                 }

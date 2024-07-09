@@ -1,5 +1,5 @@
 import React from 'react';
-import FileManager from './components/FileManager';
+import FileManager from '../frontend/components/FileManager';
 
 function App() {
   return (
