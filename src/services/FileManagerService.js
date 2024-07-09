@@ -13,16 +13,6 @@ export const loadFilesFromDirectory = async (directoryPath) => {
     }
 };
 
-export const viewAllFiles = async () => {
-    try {
-        const response = await axios.get(`${API_URL}`);
-        return response;
-    } catch (error) {
-        console.error('Error viewing all files:', error);
-        throw error;
-    }
-};
-
 export const createFile = async (fileName, fileContent) => {
     try {
         const response = await axios.post(`${API_URL}/createFile`, null, { params: { fileName, fileContent } });
@@ -75,7 +65,7 @@ export const countWords = async (fileName, numThreads) => {
 
 export const writeFile = async (fileName, content) => {
     try {
-        const response = await axios.post(`${API_URL}/writeFile`, { fileName, fileContent: content });
+        const response = await axios.post(`${API_URL}/writeFile`, null, { params: { fileName, fileContent: content } });
         return response;
     } catch (error) {
         console.error('Error writing to file:', error);
