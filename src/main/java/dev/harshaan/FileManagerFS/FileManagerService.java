@@ -25,7 +25,7 @@ public class FileManagerService {
      */
     public List<Map<String, Object>> loadFilesFromDirectory(String directoryPath) {
         try {
-            String decodedPath = URLDecoder.decode(directoryPath, StandardCharsets.UTF_8.name());
+            String decodedPath = URLDecoder.decode(directoryPath, StandardCharsets.UTF_8);
             this.directoryPath = decodedPath;
             File directory = new File(decodedPath);
             List<Map<String, Object>> fileDetailsList = new ArrayList<>();
