@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Service for managing files in a specified directory.
@@ -22,25 +24,33 @@ public class FileManagerService {
      * @return a list of file details, including file name, word count, and character count
      */
     public List<Map<String, Object>> loadFilesFromDirectory(String directoryPath) {
-        this.directoryPath = directoryPath;
-        File directory = new File(directoryPath);
-        List<Map<String, Object>> fileDetailsList = new ArrayList<>();
-        if (directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (isTextFile(file)) {
-                        Map<String, Object> fileDetails = new HashMap<>();
-                        EditableFile editableFile = new EditableFile(file.getName());
-                        fileDetails.put("fileName", file.getName());
-                        fileDetails.put("wordCount", editableFile.getWordCount());
-                        fileDetails.put("charCount", editableFile.getCharCount());
-                        fileDetailsList.add(fileDetails);
+        try {
+            String decodedPath = URLDecoder.decode(directoryPath, StandardCharsets.UTF_8.name());
+            this.directoryPath = decodedPath;
+            File directory = new File(decodedPath);
+            List<Map<String, Object>> fileDetailsList = new ArrayList<>();
+            if (directory.isDirectory()) {
+                File[] files = directory.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        if (isTextFile(file)) {
+                            Map<String, Object> fileDetails = new HashMap<>();
+                            EditableFile editableFile = new EditableFile(file.getName());
+                            fileDetails.put("fileName", file.getName());
+                            fileDetails.put("wordCount", editableFile.getWordCount());
+                            fileDetails.put("charCount", editableFile.getCharCount());
+                            fileDetailsList.add(fileDetails);
+                        }
                     }
                 }
             }
+            return fileDetailsList;
         }
-        return fileDetailsList;
+        catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     /**
