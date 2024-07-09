@@ -93,7 +93,7 @@ public class EditableFile {
    private void updateBothCounts() {
       try {
          String content = getContent();
-         charCount = content.length(); // No need to subtract 1
+         charCount = content.length();
          if (content.isEmpty()) {
             wordCount = 0;
          } else {
