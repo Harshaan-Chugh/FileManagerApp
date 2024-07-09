@@ -35,7 +35,7 @@ public class FileManagerService {
                     for (File file : files) {
                         if (isTextFile(file)) {
                             Map<String, Object> fileDetails = new HashMap<>();
-                            EditableFile editableFile = new EditableFile(file.getName());
+                            EditableFile editableFile = new EditableFile(file.getAbsolutePath());
                             fileDetails.put("fileName", file.getName());
                             fileDetails.put("wordCount", editableFile.getWordCount());
                             fileDetails.put("charCount", editableFile.getCharCount());
@@ -47,7 +47,6 @@ public class FileManagerService {
             return fileDetailsList;
         }
         catch (Exception e) {
-            // Handle exception
             e.printStackTrace();
             return Collections.emptyList();
         }
@@ -140,7 +139,7 @@ public class FileManagerService {
         Map<String, EditableFile> uniqueFiles = new HashMap<>();
         for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.isFile() && isTextFile(file)) {
-                EditableFile editableFile = new EditableFile(file.getName());
+                EditableFile editableFile = new EditableFile(file.getAbsolutePath());
                 String fileContent = editableFile.getContent();
                 if (uniqueFiles.containsKey(fileContent)) {
                     if (!file.delete()) {
@@ -159,7 +158,7 @@ public class FileManagerService {
      *
      * @param keyword the keyword to search for
      * @return a list of file names containing the keyword
-     * @throws Exception if the directory path is not set or an error occurs during the search
+     * @throws Exception if the directory path is not set or an error occurs during the file search
      */
     public List<String> keywordSearch(String keyword) throws Exception {
         checkDirectorySet();

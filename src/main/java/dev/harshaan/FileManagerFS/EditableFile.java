@@ -96,7 +96,8 @@ public class EditableFile {
          charCount = content.length();
          if (content.isEmpty()) {
             wordCount = 0;
-         } else {
+         }
+         else {
             wordCount = content.split("\\s+").length;
          }
       }
