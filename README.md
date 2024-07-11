@@ -1,6 +1,8 @@
 # File Manager
 
-FileManager is a file management application developed using Java Spring Boot for the backend and React for the frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and count words using multithreading.
+FileManager is a file management application developed using Java Spring Boot for the backend and React for the frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and display a file's top 10 frequent words using multithreading.
+
+Scroll to the bottom for a demo of its usage!
 
 ## Features
 
@@ -10,7 +12,7 @@ FileManager is a file management application developed using Java Spring Boot fo
 - **Delete File**: Delete a specified file from the directory.
 - **Delete Duplicates**: Delete duplicate files based on their content.
 - **Keyword Search**: Search for files containing a specified keyword.
-- **Display Top 10 Words**: Rapidly computes and displays the top 10 frequently appearing words in a specified file using a multithreaded approach.
+- **Display Top 10 Words**: Rapidly computes and displays the top 10 frequently appearing words in a specified file using a multithreaded approach. Allows user to select thread count.
 
 ## Prerequisites
 
@@ -135,3 +137,7 @@ Please fork the repository and submit a pull request.
 ## License
 
 This project is licensed under the MIT License.
+
+-----------------------------------------------
+Note: Number of threads used was intentionally backspaced for clarity via placeholder text.
+![LiveDemo.png](demo.png)
