@@ -140,4 +140,5 @@ This project is licensed under the MIT License.
 
 -----------------------------------------------
 Note: Number of threads used was intentionally backspaced for clarity via placeholder text.
+Also: Excuse the blurriness of the screenshot.
 ![LiveDemo.png](demo.png)
