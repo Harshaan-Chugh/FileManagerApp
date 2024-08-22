@@ -8,7 +8,7 @@ Scroll to the bottom for a demo of its usage!
 
 - **Load Files**: Load text files from a specified directory and display their word and character counts.
 - **Create File**: Create a new file with specified content in the directory.
-- **Write File**: Append content to an existing file.
+- **Write to File**: Append content to an existing file.
 - **Delete File**: Delete a specified file from the directory.
 - **Delete Duplicates**: Delete duplicate files based on their content.
 - **Keyword Search**: Search for files containing a specified keyword.
