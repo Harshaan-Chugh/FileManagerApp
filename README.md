@@ -50,6 +50,7 @@ The File Manager Application is configured to be run locally for security and ea
 2. **Install the dependencies**:
     ```sh
     npm install
+    npm install cross-env 
     ```
 
 3. **Start the React application**:
