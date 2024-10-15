@@ -2,7 +2,7 @@
 
 FileManager is a file management application developed using Java Spring Boot for the backend and React for the frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and display a file's top 10 frequent words using multithreading.
 
-Scroll to the bottom for a demo of its usage!
+View the frontend here: https://filemanagerapp.harshaanc.dev/. The deployment of the backend is still in progress.
 
 ## Features
 
