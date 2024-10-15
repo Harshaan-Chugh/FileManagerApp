@@ -1,1 +1,1 @@
-g
+web: java -jar target/FileManagerFS-0.0.1-SNAPSHOT.jar
