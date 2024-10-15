@@ -9,7 +9,6 @@ export const loadFilesFromDirectory = async (directoryPath) => {
         return await axios.get(url, {withCredentials: true}); // Return the full response
     } catch (error) {
         console.error('Error loading files from directory:', error);
-        throw error;
     }
 };
 
@@ -18,7 +17,6 @@ export const createFile = async (fileName, fileContent) => {
         return await axios.post(`${API_URL}/createFile`, null, {params: {fileName, fileContent}});
     } catch (error) {
         console.error('Error creating file:', error);
-        throw error;
     }
 };
 
@@ -27,7 +25,6 @@ export const deleteFile = async (fileName) => {
         return await axios.delete(`${API_URL}/deleteFile`, {params: {fileName}});
     } catch (error) {
         console.error('Error deleting file:', error);
-        throw error;
     }
 };
 
@@ -36,7 +33,6 @@ export const deleteDuplicates = async () => {
         return await axios.delete(`${API_URL}/deleteDuplicates`);
     } catch (error) {
         console.error('Error deleting duplicates:', error);
-        throw error;
     }
 };
 
@@ -45,7 +41,6 @@ export const keywordSearch = async (keyword) => {
         return await axios.get(`${API_URL}/keywordSearch`, {params: {keyword}});
     } catch (error) {
         console.error('Error searching keyword:', error);
-        throw error;
     }
 };
 
@@ -54,7 +49,6 @@ export const countWords = async (fileName, numThreads) => {
         return await axios.get(`${API_URL}/countWords`, {params: {fileName, numThreads}});
     } catch (error) {
         console.error('Error counting words:', error);
-        throw error;
     }
 };
 
@@ -63,6 +57,5 @@ export const writeFile = async (fileName, content) => {
         return await axios.post(`${API_URL}/writeFile`, null, {params: {fileName, fileContent: content}});
     } catch (error) {
         console.error('Error writing to file:', error);
-        throw error;
     }
 };
