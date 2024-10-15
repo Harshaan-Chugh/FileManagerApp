@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://your-heroku-app.herokuapp.com/api/files'; //local url is http://localhost:8080/api/files
+const API_URL = 'https://polar-citadel-61107-7cc1d50a39d6.herokuapp.com/api/files'; //local url is http://localhost:8080/api/files
 
 export const loadFilesFromDirectory = async (directoryPath) => {
     try {
