@@ -13,9 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3001") //React app's URL
+                .allowedOrigins("http://localhost:3001", "https://aquamarine-selkie-7ea2ff.netlify.app", "filemanagerapp.harshaanc.dev")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
+
 }

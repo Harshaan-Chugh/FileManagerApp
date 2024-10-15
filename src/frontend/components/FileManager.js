@@ -89,8 +89,6 @@ const FileManager = () => {
                     return { word, count: parseInt(count, 10) };
                 }));
                 setMessage('Word count completed');
-            } else {
-                throw new Error('Invalid response format');
             }
         } catch (error) {
             setMessage(`Error counting words: ${error.response?.data?.message || error.message}`);
@@ -117,7 +115,7 @@ const FileManager = () => {
             <div className="row">
                 <div className="column">
                     <h2>Select Directory</h2>
-                    <p>First Step! Enter the path of the directory to load the files from.</p>
+                    <p>First Step! Enter the path of the directory to load the (text-based) files from.</p>
                     <input
                         type="text"
                         value={directory}
