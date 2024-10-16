@@ -1,6 +1,7 @@
 # File Manager
 
 FileManager is a file management application developed with a Spring Boot backend and React frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and display a file's top 10 frequent words using multithreading.
+Additionally, Grafana and Prometheus setup to help monitor and analyze this project as you use it locally is optionally included below.
 
 View the frontend here: https://filemanagerapp.harshaanc.dev/. The deployment of the backend is still in progress.
 At this time you will need to follow the steps outlined below to modify files on your local machine.
@@ -120,17 +121,109 @@ Use these API Endpoints for testing in Postman or to better understand the funct
 - **FileManager**: Main React component that provides the user interface for managing files.
 - **FileManagerService**: Contains functions to make API calls to the backend.
 
-## Running Tests
+## Monitoring with Prometheus and Grafana
+This project is monitored using **Prometheus** to collect metrics and **Grafana** to visualize them.
 
-To run tests for the backend, use the following command:
-```sh
-mvn test
+### Step 1: Set up Prometheus
+
+1. **Download Prometheus**:
+  - Go to the [Prometheus download page](https://prometheus.io/download/) and download the appropriate binary for your OS.
+  - Extract the downloaded files into a directory (e.g., `C:\Prometheus`).
+
+2. **Create `prometheus.yml` configuration file**:  
+   In the Prometheus root directory (where `prometheus.exe` resides), create or edit the `prometheus.yml` file to define the configuration for scraping the Spring Boot metrics.
+
+   ```yaml
+   global:
+     scrape_interval: 5s  # Set the scrape interval
+   scrape_configs:
+     - job_name: 'file-manager-app'
+       metrics_path: '/actuator/prometheus'  # Path to Spring Boot metrics
+       static_configs:
+         - targets: ['localhost:8080']
+     - job_name: 'prometheus'
+       static_configs:
+         - targets: ['localhost:9090']
+
+#### Verify Prometheus is running:
+
+- Visit [http://localhost:9090](http://localhost:9090) in your browser.
+- You can run queries on your metrics by using the Prometheus expression browser.
+
+### Step 2: Enable Spring Boot Actuator Prometheus Metrics
+
+#### Add the Spring Boot Actuator dependency:
+
+Ensure your `pom.xml` includes the following dependencies:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
 ```
 
-For frontend tests, use:
-```sh
-npm test
+#### Enable Prometheus metrics in `application.properties`:
+
+Add the following to your `src/main/resources/application.properties` file:
+
+```properties
+management.endpoints.web.exposure.include=*
+management.endpoint.prometheus.enabled=true
+management.metrics.export.prometheus.enabled=true
 ```
+
+#### Run your Spring Boot application:
+
+The Spring Boot application will expose metrics at [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus). Prometheus will scrape these metrics.
+
+### Step 3: Set up Grafana
+
+#### Download and install Grafana:
+
+- Go to the [Grafana download page](https://grafana.com/grafana/download) and download the appropriate version for your system.
+- Install and run Grafana by navigating to the installation directory and running the Grafana executable.
+
+#### Login to Grafana:
+
+- Grafana will be available at [http://localhost:3000](http://localhost:3000).
+- Default credentials are:
+  - **Username**: `admin`
+  - **Password**: `admin`
+
+#### Add Prometheus as a data source:
+
+1. In the Grafana dashboard, click the **gear icon** (Configuration) and select **Data Sources**.
+2. Click **Add Data Source**.
+3. Choose **Prometheus** from the list.
+4. In the **URL** field, enter `http://localhost:9090`.
+5. Click **Save & Test** to confirm the connection.
+
+#### Import a Grafana Dashboard:
+
+You can either create a custom dashboard or use a prebuilt one:
+
+1. Click **+** (Create) -> **Import**.
+2. Enter **Dashboard ID**: `10280` (Spring Boot 2.1 Statistics) and click **Load**.
+3. Select your Prometheus data source and click **Import**.
+
+You will now see real-time metrics from your Spring Boot application visualized in Grafana.
+
+### Step 4: Viewing Metrics in Grafana
+
+Once Prometheus is scraping the metrics from your Spring Boot application and Grafana is set up, you can monitor JVM statistics, CPU usage, memory usage, and much more.
+
+- **Spring Boot JVM Metrics**: You can monitor JVM heap memory, CPU usage, garbage collection stats, thread count, and more.
+- **Custom Metrics**: If you have custom application-specific metrics, they will also be available on the `/actuator/prometheus` endpoint and visualized in Grafana.
+
+### Example
+![img.png](img.png)
 
 ## Contributing
 
@@ -141,6 +234,5 @@ Please fork the repository and submit a pull request.
 This project is licensed under the MIT License.
 
 -----------------------------------------------
-Note: Number of threads used was intentionally backspaced for clarity via placeholder text.
-Also: Excuse the blurriness of the screenshot.
+Note: Number of threads used was intentionally backspaced for clarity via placeholder text. For less grainy sample see the static site where you can get a feel for the UI before setting the project up yourself.
 ![LiveDemo.png](demo.png)
