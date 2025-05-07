@@ -78,3 +78,4 @@ Spring Boot + React app for super‑quick local file management:
 - Select your Prometheus data source → Import
 
 4. **JVM metrics, HTTP latencies, GC stats, and custom meters will appear in Grafana.**
+![img.png](img.png)
