@@ -37,3 +37,44 @@ Spring Boot + React app for super‑quick local file management:
 | **DELETE** | `/files/deleteDuplicates` | –                         | Delete duplicate files by content. |
 | **GET** | `/files/keywordSearch` | `keyword`                 | Search files by keyword. |
 | **GET** | `/files/countWords` | `fileName`, `numThreads`  | Return top‑10 word counts (multi‑threaded). |
+
+## Monitoring (Prometheus + Grafana)
+
+1. **Expose metrics**  
+   *Add to `pom.xml`:*
+   ```xml
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-actuator</artifactId>
+   </dependency>
+   <dependency>
+       <groupId>io.micrometer</groupId>
+       <artifactId>micrometer-registry-prometheus</artifactId>
+   </dependency>
+   ```
+    *Add to `application.yml`:*
+    ```yaml
+       management.endpoints.web.exposure.include=*
+        management.metrics.export.prometheus.enabled=true
+    ``
+2. **Run Prometheus**
+    
+    Create a minimal `prometheus.yml` alongside prometheus.exe:
+    
+    ```yaml
+    global:
+      scrape_interval: 5s
+    scrape_configs:
+      - job_name: "file-manager"
+        metrics_path: "/actuator/prometheus"
+        static_configs:
+          - targets: ["localhost:8080"]
+    ```
+
+3. **Import a dashboard**
+
+- Click Import
+- Enter ID 10280 (Spring Boot 2 Stats) → Load
+- Select your Prometheus data source → Import
+
+4. **JVM metrics, HTTP latencies, GC stats, and custom meters will appear in Grafana.**
