@@ -1,4 +1,4 @@
-package dev.harshaan.FileManagerFS;
+package dev.harshaan.FileScout;
 
 import lombok.Getter;
 
@@ -23,7 +23,6 @@ public class EditableFile {
 
    /**
     * Constructs an EditableFile with the specified file path.
-    *
     * @param filePath the path of the file
     */
    public EditableFile(String filePath) {
@@ -52,7 +51,6 @@ public class EditableFile {
    /**
     * Appends the specified content to the end of the file.
     * Updates wordCount and charCount accordingly.
-    *
     * @param contents The content to be written to the file.
     */
    public void write(String contents) {
@@ -68,7 +66,6 @@ public class EditableFile {
 
    /**
     * Gets the content of the file.
-    *
     * @return the content of the file
     * @throws IOException if an I/O error occurs
     */
@@ -78,7 +75,6 @@ public class EditableFile {
 
    /**
     * Checks if the file contains the specified keyword.
-    *
     * @param keyword the keyword to search for
     * @return true if the file contains the keyword, false otherwise
     * @throws IOException if an I/O error occurs

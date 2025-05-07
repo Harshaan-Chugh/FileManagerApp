@@ -1,4 +1,4 @@
-package dev.harshaan.FileManagerFS;
+package dev.harshaan.FileScout;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -56,7 +56,7 @@ public class MultithreadedWordCounter {
     /**
      * Counts words in the specified line and updates the word counts map.
      *
-     * @param line       the line to count words in
+     * @param line the line to count words in
      * @param wordCounts the map to update with word counts
      */
     private void countWordsInLine(String line, ConcurrentHashMap<String, Integer> wordCounts) {

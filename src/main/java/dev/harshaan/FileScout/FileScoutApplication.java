@@ -1,4 +1,4 @@
-package dev.harshaan.FileManagerFS;
+package dev.harshaan.FileScout;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main application class for the FileManager application.
  */
 @SpringBootApplication
-public class FileManagerApplication {
+public class FileScoutApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(FileManagerApplication.class, args);
+		SpringApplication.run(FileScoutApplication.class, args);
 	}
 }

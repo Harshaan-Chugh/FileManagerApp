@@ -1,4 +1,4 @@
-package dev.harshaan.FileManagerFS;
+package dev.harshaan.FileScout;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * Service for managing files in a specified directory.
  */
 @Service
-public class FileManagerService {
+public class FileScoutService {
     private static final List<String> TEXT_FILE_EXTENSIONS = Arrays.asList("txt", "md");
     private final WordCounterService wordCounterService = new WordCounterService();
     private String directoryPath;

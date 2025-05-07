@@ -1,4 +1,4 @@
-package dev.harshaan.FileManagerFS;
+package dev.harshaan.FileScout;
 
 import org.springframework.stereotype.Service;
 
