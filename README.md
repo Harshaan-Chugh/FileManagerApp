@@ -56,7 +56,7 @@ Spring Boot + React app for super‑quick local file management:
     ```yaml
        management.endpoints.web.exposure.include=*
         management.metrics.export.prometheus.enabled=true
-    ``
+    ```
 2. **Run Prometheus**
     
     Create a minimal `prometheus.yml` alongside prometheus.exe:
