@@ -44,6 +44,6 @@ Spring Boot + React app for super‑quick local file management:
 
 ```bash
 # clone + build backend
-git clone https://github.com/Harshaan-Chugh/FileManagerApp.git
+git clone https://github.com/Harshaan-Chugh/FileScout.git
 cd FileManagerFS
 mvn clean install && mvn spring-boot:run
