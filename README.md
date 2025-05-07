@@ -37,13 +37,3 @@ Spring Boot + React app for super‑quick local file management:
 | **DELETE** | `/files/deleteDuplicates` | –                         | Delete duplicate files by content. |
 | **GET** | `/files/keywordSearch` | `keyword`                 | Search files by keyword. |
 | **GET** | `/files/countWords` | `fileName`, `numThreads`  | Return top‑10 word counts (multi‑threaded). |
-
----
-
-## Quick (Local) Start
-
-```bash
-# clone + build backend
-git clone https://github.com/Harshaan-Chugh/FileScout.git
-cd FileManagerFS
-mvn clean install && mvn spring-boot:run
