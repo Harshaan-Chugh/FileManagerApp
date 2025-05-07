@@ -1,6 +1,6 @@
-# File Manager
+# FileScout
 
-FileManager is a file management application developed with a Spring Boot backend and React frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and display a file's top 10 frequent words using multithreading.
+FileScout is a file management application developed with a Spring Boot backend and React frontend. It provides functionalities to load files from a directory, create files, delete files, delete duplicate files, search for keywords within files, and display a file's top 10 frequent words using multithreading.
 Additionally, Grafana and Prometheus setup to help monitor and analyze this project as you use it locally is optionally included below.
 
 View the frontend here: https://filemanagerapp.harshaanc.dev/. The deployment of the backend is still in the works, as it would necessitate cloud storage due to the nature of the application.
@@ -24,38 +24,13 @@ At this time you will need to follow the steps outlined below to modify files on
 
 ## Getting Started
 The File Manager Application is configured to be run locally for security and ease of use.
-### Backend Setup
-
-1. **Clone the repository**:
-    ```sh
-    git clone https://github.com/Harshaan-Chugh/FileManagerApp.git
-    cd FileManagerFS
-    ```
-
-2. **Build the project**:
-    ```sh
-    mvn clean install
-    ```
-
-3. **Run the Spring Boot application**:
+### Setup
+1. **Run the Spring Boot application**:
     ```sh
     mvn spring-boot:run
     ```
 
-### Frontend Setup
-
-1. **Navigate to the root directory**:
-    ```sh
-    cd frontend
-    ```
-
-2. **Install the dependencies**:
-    ```sh
-    npm install
-    npm install cross-env 
-    ```
-
-3. **Start the React application**:
+2. **Start the React application**:
     ```sh
     npm start
     ```
