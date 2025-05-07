@@ -7,6 +7,7 @@ Spring Boot + React app for super‑quick local file management:
 * multithreaded “top‑10 words” analysis (pick your thread count)
 
 **Live UI:** https://filescoutfrontend.netlify.app
+---
 **Backend status:** deployment in progress
 ---
 
