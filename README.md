@@ -41,7 +41,7 @@ Spring Boot + React app for super‑quick local file management:
 ## Monitoring (Prometheus + Grafana)
 
 1. **Expose metrics**  
-   *Add to `pom.xml`:*
+   *In `pom.xml`:*
    ```xml
    <dependency>
        <groupId>org.springframework.boot</groupId>
@@ -52,7 +52,7 @@ Spring Boot + React app for super‑quick local file management:
        <artifactId>micrometer-registry-prometheus</artifactId>
    </dependency>
    ```
-    *Add to `application.yml`:*
+    *In `application.yml`:*
     ```yaml
        management.endpoints.web.exposure.include=*
         management.metrics.export.prometheus.enabled=true
@@ -72,8 +72,6 @@ Spring Boot + React app for super‑quick local file management:
     ```
 
 3. **Import a dashboard**
-
-- Click Import
 - Enter ID 10280 (Spring Boot 2 Stats) → Load
 - Select your Prometheus data source → Import
 
